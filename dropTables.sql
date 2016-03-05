@@ -9,12 +9,12 @@
 -- 
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `mlp_color`;
 DROP TABLE IF EXISTS `mlp_location`;
 DROP TABLE IF EXISTS `mlp_occupation`;
 DROP TABLE IF EXISTS `mlp_pony`;
-DROP TABLE IF EXISTS `mlp_ponyChild`;
-DROP TABLE IF EXISTS `mlp_ponyLocation`;
+DROP TABLE IF EXISTS `mlp_ponyColor`;
 DROP TABLE IF EXISTS `mlp_ponyOccupation`;
-DROP TABLE IF EXISTS `mlp_ponyType`;
+DROP TABLE IF EXISTS `mlp_residance`;
 DROP TABLE IF EXISTS `mlp_type`;
 SET FOREIGN_KEY_CHECKS = 1;
