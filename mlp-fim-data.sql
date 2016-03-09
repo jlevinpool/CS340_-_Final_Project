@@ -26,7 +26,7 @@ INSERT INTO mlp_pony (id, name, gender, cutieMark, typeID, residanceID) VALUES
 	(6,'RAINBOW DASH','F','Blue-yellow-red lighting bolt with cloud',3,7),
 	(7,'PRINCESS CELESTIA','F','Stylized sun',1,8),
 	(8,'PRINCESS LUNA','F','Crescent moon on a dark purple backgound',1,8),
-	(9,'PRINCESS CADANCE','F','Multifaceted light blue crystal heart between gold laces',1,9);
+	(9,'PRINCESS CADANCE','F','Multifaceted light blue crystal heart between gold laces',1,9),
 	(10,'SHINING ARMOR','M','Pink six-pointed star on a purple shield with three small light blue stars above',4,9),
 	(11,'GRANNY SMITH','F','Apple Pie',2,3),
 	(12,'BIG MCINTOSH','M','Green apple sliced in half',2,3);
@@ -166,7 +166,7 @@ INSERT INTO mlp_ponyOccupation (id, ponyID, occupationID) VALUES
 	(11,8,1),
 	(12,9,1),
 	(13,10,1),
-	(14,12,4),  --- Granny Smith does not have an occupation ---
+	(14,12,4),  -- Granny Smith does not have an occupation --
 	(15,4,12),
 	(16,3,12),
 	(17,12,12);
@@ -202,7 +202,7 @@ INSERT INTO mlp_ponyColor (id, area, ponyID, colorID) VALUES
 	(23,'MANE',6,23),
 	(24,'MANE',6,24),
 	(25,'COAT',6,25),
-	(26,'EYES',7.26),  -- Princess Celestia --
+	(26,'EYES',7,26),  -- Princess Celestia --
 	(27,'MANE',7,27),
 	(28,'MANE',7,28),
 	(29,'MANE',7,29),
