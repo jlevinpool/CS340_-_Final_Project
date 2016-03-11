@@ -49,12 +49,12 @@ echo "OK";
 <!-- Fetch List of Pony General Information -->
 <?php
 if(!($stmt = $mysqli->prepare("
-		SELECT mlp_pony.name, mlp_type.name, mlp_pony.gender, mlp_residance.name, mlp_location.name, mlp_pony.cutieMark 
-		FROM mlp_pony 
-		INNER JOIN mlp_type ON mlp_pony.typeID = mlp_type.id 
-		INNER JOIN mlp_residance ON mlp_pony.residanceID = mlp_residance.id
-		INNER JOIN mlp_location ON mlp_residance.locationID = mlp_location.id
-		ORDER BY mlp_pony.name ASC
+SELECT mlp_pony.name, mlp_type.name, mlp_pony.gender, mlp_residance.name, mlp_location.name, mlp_pony.cutieMark 
+FROM mlp_pony 
+INNER JOIN mlp_type ON mlp_pony.typeID = mlp_type.id 
+INNER JOIN mlp_residance ON mlp_pony.residanceID = mlp_residance.id
+INNER JOIN mlp_location ON mlp_residance.locationID = mlp_location.id
+ORDER BY mlp_pony.name ASC
 		"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
@@ -76,6 +76,55 @@ $stmt->close();
 ?>
 			</table>
 		</div>
+		<!-- Update General Information -->
+		<form method="post" action="mlp-updatePony.php">
+			<fieldset>
+				<legend>Update General Information</legend>
+					<table border="1" style="width:100%">
+						<tr>
+							<th>Pony Information</th>
+							<th>Pony Types</th>
+							<th>Residance</th>
+						</tr>
+						<tr>
+							<td style="text-align:center">
+								<select name="generalInfo">
+<!-- Fetch list of Ponies -->
+<?php
+if(!($stmt = $mysqli->prepare("
+SELECT mlp_pony.id, mlp_pony.name 
+FROM mlp_pony 
+ORDER BY mlp_pony.name ASC
+		"))){
+	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error; 
+}
+if(!$stmt->execute()){
+	echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+if(!$stmt->bind_result($id, $name)){
+	echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+while($stmt->fetch()){
+ echo "<option value='" . $id . "'>" . $name . "</option>\n";
+}
+?>
+								</select>
+								<input type="submit" value="Update Pony"/>
+							</td>
+							<td  style="text-align:center">Pony Types Here</td>
+							<td  style="text-align:center">Residance Here</td>
+						</tr>
+					</table>
+			</fieldset>
+		</form>
+		<!-- Add General Information -->
+		<form method="post" action="mlp_addPony.php">
+			<fieldset>
+				<legend>Add General Information</legend>
+				
+				<input type="submit" value="addPony"
+			</fieldset>
+		</form>
 		</br>
 		<div>  <!-- Table of Pony Occupations -->
 			<table border="1" style="width:100%">
@@ -87,11 +136,11 @@ $stmt->close();
 <!-- Fetch List of Pony Occcupations -->
 <?php
 if(!($stmt = $mysqli->prepare("
-		SELECT mlp_pony.name, GROUP_CONCAT(mlp_occupation.title SEPARATOR ', ')
-		FROM mlp_pony
-		INNER JOIN mlp_ponyOccupation ON mlp_pony.id = mlp_ponyOccupation.ponyID
-		INNER JOIN mlp_occupation ON mlp_ponyOccupation.occupationID = mlp_occupation.id
-		GROUP BY mlp_pony.name
+SELECT mlp_pony.name, GROUP_CONCAT(mlp_occupation.title SEPARATOR ', ')
+FROM mlp_pony
+INNER JOIN mlp_ponyOccupation ON mlp_pony.id = mlp_ponyOccupation.ponyID
+INNER JOIN mlp_occupation ON mlp_ponyOccupation.occupationID = mlp_occupation.id
+GROUP BY mlp_pony.name
 		"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
