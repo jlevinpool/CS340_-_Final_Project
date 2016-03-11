@@ -46,7 +46,7 @@ echo "OK";
 					<th>Residance</th>
 					<th>Cutie Mark</th>
 				</tr>
-<!--- Fetch List of Pony General Information --->
+<!-- Fetch List of Pony General Information -->
 <?php
 if(!($stmt = $mysqli->prepare("
 		SELECT mlp_pony.name, mlp_type.name, mlp_pony.gender, mlp_residance.name, mlp_location.name, mlp_pony.cutieMark 
@@ -77,14 +77,14 @@ $stmt->close();
 			</table>
 		</div>
 		</br>
-		<div>  <!--- Table of Pony Occupations --->
+		<div>  <!-- Table of Pony Occupations -->
 			<table border="1" style="width:100%">
 				<caption>Occupations</caption>
 				<tr>
 					<th>Name</th>
 					<th>Occupations</th>
 				</tr>
-<!--- Fetch List of Pony Occcupations --->
+<!-- Fetch List of Pony Occcupations -->
 <?php
 if(!($stmt = $mysqli->prepare("
 		SELECT mlp_pony.name, GROUP_CONCAT(mlp_occupation.title SEPARATOR ', ')
@@ -110,8 +110,60 @@ while($stmt->fetch()){
 			</table>
 		</div>
 		</br>
-		<div>  <!--- Table of Pony Colors --->
-		
+		<div>  <!-- Table of Pony Colors -->
+			<table border="1" style="width:100%">
+				<caption>Colors</caption>
+				<tr>
+					<th>Name</th>
+					<th>Eye Color</th>
+					<th>Mane Color</th>
+					<th>Coat Color</th>
+				</tr>
+<!-- Fetch List of Pony Colors -->
+<?php
+if(!($stmt = $mysqli->prepare("
+SELECT T1.ponyName, T1.colorName AS eyeColor, T2.colorName AS coatColor, T3.colorName AS maneColor
+FROM (
+	SELECT mlp_pony.name AS ponyName, mlp_color.name AS colorName
+	FROM mlp_pony
+	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
+	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
+	WHERE mlp_ponyColor.area = 'EYES'
+	) AS T1
+INNER JOIN (
+	SELECT mlp_pony.name AS ponyName, mlp_color.name AS colorName
+	FROM mlp_pony
+	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
+	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
+	WHERE mlp_ponyColor.area = 'COAT'
+	) AS T2
+ON T1.ponyName = T2.ponyName
+INNER JOIN (
+	SELECT mlp_pony.name AS ponyName, GROUP_CONCAT(mlp_color.name SEPARATOR '\n') AS colorName
+	FROM mlp_pony
+	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
+	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
+	WHERE mlp_ponyColor.area = 'MANE'
+	GROUP BY mlp_pony.name
+	) AS T3
+ON T1.ponyName = T3.ponyName
+		"))){
+	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+}
+if(!$stmt->execute()){
+	echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+if(!$stmt->bind_result($name, $eyeColor, $coatColor, $maneColor)){
+	echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+while($stmt->fetch()){
+ echo "<tr>\n<td>\n" . $name
+	. "\n</td>\n<td>\n" . $eyeColor
+	. "\n</td>\n<td>\n" . $coatColor
+	. "\n</td>\n<td>\n" . $maneColor
+	. "\n</td>\n</tr>";
+?>
+			</table>
 		</div>
 	</body>
 </html>
