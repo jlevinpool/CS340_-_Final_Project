@@ -117,12 +117,12 @@ while($stmt->fetch()){
 					<th>Name</th>
 					<th>Eye Color</th>
 					<th>Mane Color</th>
-					<th>Coat Color</th>
+					<!--<th>Coat Color</th>-->
 				</tr>
 <!-- Fetch List of Pony Colors -->
 <?php
 if(!($stmt = $mysqli->prepare("
-SELECT T1.ponyName, T1.colorName AS eyeColor, T2.colorName AS coatColor, T3.colorName AS maneColor
+SELECT T1.ponyName, T1.colorName AS eyeColor, T2.colorName AS coatColor
 FROM (
 	SELECT mlp_pony.name AS ponyName, mlp_color.name AS colorName
 	FROM mlp_pony
@@ -138,15 +138,6 @@ INNER JOIN (
 	WHERE mlp_ponyColor.area = 'COAT'
 	) AS T2
 ON T1.ponyName = T2.ponyName
-INNER JOIN (
-	SELECT mlp_pony.name AS ponyName, GROUP_CONCAT(mlp_color.name SEPARATOR '\n') AS colorName
-	FROM mlp_pony
-	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
-	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
-	WHERE mlp_ponyColor.area = 'MANE'
-	GROUP BY mlp_pony.name
-	) AS T3
-ON T1.ponyName = T3.ponyName
 		"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
@@ -160,7 +151,6 @@ while($stmt->fetch()){
  echo "<tr>\n<td>\n" . $name
 	. "\n</td>\n<td>\n" . $eyeColor
 	. "\n</td>\n<td>\n" . $coatColor
-	. "\n</td>\n<td>\n" . $maneColor
 	. "\n</td>\n</tr>";
 ?>
 			</table>
