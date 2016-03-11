@@ -12,14 +12,14 @@ FROM (
 	FROM mlp_pony
 	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
 	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
-	WHERE mlp_ponyColor.area = "EYES"
+	WHERE mlp_ponyColor.area = 'EYES'
 	) AS T1
 INNER JOIN (
 	SELECT mlp_pony.name AS ponyName, mlp_color.name AS colorName
 	FROM mlp_pony
 	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
 	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
-	WHERE mlp_ponyColor.area = "COAT"
+	WHERE mlp_ponyColor.area = 'COAT'
 	) AS T2
 ON T1.ponyName = T2.ponyName
 INNER JOIN (
@@ -27,7 +27,7 @@ INNER JOIN (
 	FROM mlp_pony
 	INNER JOIN mlp_ponyColor ON mlp_pony.id = mlp_ponyColor.ponyID
 	INNER JOIN mlp_color ON mlp_ponyColor.colorID = mlp_color.id
-	WHERE mlp_ponyColor.area = "MANE"
+	WHERE mlp_ponyColor.area = 'MANE'
 	GROUP BY mlp_pony.name
 	) AS T3
 ON T1.ponyName = T3.ponyName

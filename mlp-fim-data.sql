@@ -187,7 +187,7 @@ INSERT INTO mlp_ponyColor (id, area, ponyID, colorID) VALUES
 	(8,'COAT',2,8),
 	(9,'EYES',3,9),  -- Fluttershy --
 	(10,'MANE',3,10),
-	(11,'COAT',4,11),
+	(11,'COAT',3,11),
 	(12,'EYES',4,12),  -- Rarity --
 	(13,'MANE',4,13),
 	(14,'COAT',4,14),
